@@ -5,6 +5,7 @@ from typing import List
 import logging
 import os
 import mysql.connector
+from mysql.connector.connection import MySQLConnection
 
 PII_FIELDS = ("name", "email", "phone", "ssn", "password")
 
@@ -49,7 +50,7 @@ def get_logger() -> logging.Logger:
     return logger
 
 
-def get_db() -> mysql.connector.connection.MYSQLConnection:
+def get_db() -> MySQLConnection:
     """ connect to mysql db using environmental variables"""
     try:
         db_name = os.environ["PERSONAL_DATA_DB_NAME"]
