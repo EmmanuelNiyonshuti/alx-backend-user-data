@@ -51,12 +51,14 @@ def get_logger() -> logging.Logger:
 
 def get_db():
     """ connect to mysql db """
-    db_name = os.environ["PERSONAL_DATA_DB_NAME"]
-    db_host = os.environ["PERSONAL_DATA_DB_HOST"]
-    db_pwd = os.environ["PERSONAL_DATA_DB_PASSWORD"]
-    db_user = os.environ["PERSONAL_DATA_DB_USERNAME"]
+    try:
+        db_name = os.environ["PERSONAL_DATA_DB_NAME"]
+        db_host = os.environ["PERSONAL_DATA_DB_HOST"]
+        db_pwd = os.environ["PERSONAL_DATA_DB_PASSWORD"]
+        db_user = os.environ["PERSONAL_DATA_DB_USERNAM  E"]
 
-    cnx = mysql.connector.connect(user=db_user, password=db_pwd,
+        cnx = mysql.connector.connect(user=db_user, password=db_pwd,
                                   host=db_host, database=db_name)
-    cnx.close()
-    return cnx
+        return cnx
+    except:
+        pass
