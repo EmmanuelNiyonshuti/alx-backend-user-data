@@ -62,3 +62,28 @@ def get_db() -> MySQLConnection:
                                   host=db_host,
                                   database=db_name)
     return cnx
+
+
+def main() -> None:
+    """
+    obtain db connection , retrieve all rows from the users table
+    and displays them in a filtered format
+    """
+    cnx = get_db()
+    cursor = cnx.cursor()
+    logger = get_logger()
+    cursor.execute("SELECT name, email, phone, ssn,\
+                    password, ip, last_login, user_agent FROM users;")
+    for row in cursor.fetchall():
+        name, email, phone, ssn, password, ip, last_login, user_agent = row
+        log_msg = f"name={name}; email={email};\
+                    phone={phone}; ssn={ssn}; password={password};\
+                    ip={ip}; last_login={last_login};\
+                    user_agent={user_agent};"
+        logger.info(log_msg)
+    cursor.close()
+    cnx.close()
+
+
+if __name__ == "__main__":
+    main()
