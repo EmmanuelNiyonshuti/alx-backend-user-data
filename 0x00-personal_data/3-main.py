@@ -6,8 +6,8 @@ Main file
 get_db = __import__('filtered_logger').get_db
 
 db = get_db()
+print(dir(db))
 cursor = db.cursor()
-print(dir(cursor))
 cursor.execute("SELECT COUNT(*) FROM users;")
 for row in cursor:
     print(row[0])

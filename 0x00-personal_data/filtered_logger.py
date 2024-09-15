@@ -49,13 +49,13 @@ def get_logger() -> logging.Logger:
     return logger
 
 
-def get_db():
-    """ connect to mysql db """
+def get_db() -> mysql.connector.connection.MYSQLConnection:
+    """ connect to mysql db using environmental variables"""
     try:
         db_name = os.environ["PERSONAL_DATA_DB_NAME"]
         db_host = os.environ["PERSONAL_DATA_DB_HOST"]
         db_pwd = os.environ["PERSONAL_DATA_DB_PASSWORD"]
-        db_user = os.environ["PERSONAL_DATA_DB_USERNAM  E"]
+        db_user = os.environ["PERSONAL_DATA_DB_USERNAME"]
 
         cnx = mysql.connector.connect(user=db_user, password=db_pwd,
                                   host=db_host, database=db_name)
