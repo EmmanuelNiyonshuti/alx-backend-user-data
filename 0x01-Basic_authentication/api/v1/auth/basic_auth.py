@@ -3,6 +3,7 @@
 
 from api.v1.auth.auth import Auth
 import re
+import base64
 
 
 class BasicAuth(Auth):
@@ -27,3 +28,24 @@ class BasicAuth(Auth):
         auth_list = authorization_header.split(" ")
         auth_str = auth_list[1]
         return auth_str
+
+    def decode_base64_authorization_header(self, base64_authorization_header: str) -> str:
+        """
+        decode a base64 string to a UTF-8 string.
+        Args:
+            base64_authorization_header (str) - a base64 string.
+        Return:
+            UTF8 string if base64_authorization_header
+            is a valid base64 string otherwise None.
+            """
+        if base64_authorization_header is None or \
+                not isinstance(base64_authorization_header, str):
+            return None
+        if not re.match(r'[A-Za-z0-9+/]+={0,2}$', base64_authorization_header):
+            return None
+        try:
+            base64_bytes = base64_authorization_header.encode("utf-8")
+            data_bytes = base64.b64decode(base64_bytes)
+            return data_bytes.decode("utf-8")
+        except base64.binascii.Error:
+            return None
