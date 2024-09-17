@@ -2,7 +2,6 @@
 """
 Route module for the API
 """
-from api.v1.auth.auth import Auth
 from os import getenv
 from api.v1.views import app_views
 from flask import Flask, jsonify, abort, request
@@ -19,10 +18,10 @@ auth_type = os.getenv("AUTH_TYPE")
 
 if auth_type == "basic_auth":
     from api.v1.auth.basic_auth import BasicAuth
-    basic_auth = BasicAuth()
-    basic_auth = auth
-auth = Auth()
-auth_obj = auth
+    auth = BasicAuth()
+else:
+    from api.v1.auth.auth import Auth
+    auth = Auth()
 
 
 @app.before_request

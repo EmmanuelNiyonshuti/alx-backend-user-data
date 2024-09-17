@@ -6,7 +6,7 @@ from models.user import User
 
 
 class Auth:
-    """ Manage api authentication. """
+    """ Auth class. """
     def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
         """Determines if authentication is required for a path.
         Args:
