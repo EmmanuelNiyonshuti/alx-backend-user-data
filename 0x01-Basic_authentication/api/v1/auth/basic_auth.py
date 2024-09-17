@@ -57,8 +57,8 @@ class BasicAuth(Auth):
         Return:
             a tuple or None if the str is invalid.
             """
-        if base64_authorization_header is None or \
-                not isinstance(base64_authorization_header, str):
+        if decoded_base64_authorization_header is None or \
+                not isinstance(decoded_base64_authorization_header, str):
             return (None, None)
         if ":" not in decoded_base64_authorization_header:
             return (None, None)
