@@ -8,21 +8,25 @@ from models.user import User
 class Auth:
     """ Auth class. """
     def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
-        """Determines if authentication is required for a path.
+        """
+        Determines if authentication is required for an endpoint.
         Args:
             path: The path to check.
             excluded_paths: List of paths that do not require authentication.
         Return:
-            True if authentication is required, False otherwise.
+            bool.
         """
         if path is None or excluded_paths is None or len(excluded_paths) == 0:
             return True
         if not path.endswith("/"):
             path = path + "/"
-        if path in excluded_paths:
-            return False
-        else:
-            return True
+        for ex_paths in excluded_paths:
+            if ex_paths.endswith("*"):
+                if path.startswith(ex_paths[:-1]):
+                    return False
+            elif path == ex_paths:
+                return False 
+        return True
 
     def authorization_header(self, request=None) -> str:
         """ retrieves the value of the request authorization header.
