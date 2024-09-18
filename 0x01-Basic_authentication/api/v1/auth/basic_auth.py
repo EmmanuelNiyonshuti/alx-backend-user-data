@@ -68,10 +68,14 @@ class BasicAuth(Auth):
         return (user[0], user[1])
 
     def user_object_from_credentials(self, user_email: str, user_pwd: str) -> TypeVar('User'):
-        """ returns user instance based on his email and password.
+        """
+        returns user instance based on his email and password.
         Args:
             user_email (str) - user email.
-            user_pwd (str) - user"""
+            user_pwd (str) - user.
+        """
+        if User.count() == 0:
+            return None
         if user_email is None or not isinstance(user_email, str):
             return None
         if user_pwd is None or not isinstance(user_pwd, str):
@@ -85,7 +89,6 @@ class BasicAuth(Auth):
             return None
         return user
 
-
     def current_user(self, request=None) -> TypeVar('User'):
         """Returns the current user (None in this base implementation).
         Args:
@@ -97,5 +100,7 @@ class BasicAuth(Auth):
         base64_str = self.extract_base64_authorization_header(auth_header)
         decoded = self.decode_base64_authorization_header(base64_str)
         credentials = self.extract_user_credentials(decoded)
-        user = self.user_object_from_credentials(credentials[0], credentials[1])
+        user = self.user_object_from_credentials(
+                                credentials[0], credentials[1]
+                                )
         return user
