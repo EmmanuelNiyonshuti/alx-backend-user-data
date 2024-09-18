@@ -74,8 +74,6 @@ class BasicAuth(Auth):
             user_email (str) - user email.
             user_pwd (str) - user.
         """
-        if User.count() == 0:
-            return None
         if user_email is None or not isinstance(user_email, str):
             return None
         if user_pwd is None or not isinstance(user_pwd, str):
