@@ -25,7 +25,7 @@ class Auth:
                 if path.startswith(ex_paths[:-1]):
                     return False
             elif path == ex_paths:
-                return False 
+                return False
         return True
 
     def authorization_header(self, request=None) -> str:
