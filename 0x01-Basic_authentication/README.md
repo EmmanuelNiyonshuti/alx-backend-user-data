@@ -4,9 +4,8 @@
 In this project, you will learn what the authentication process means and implement a Basic Authentication on a simple API.
 
 In the industry, you should not implement your own Basic authentication system and use a module or framework that doing it for you (like in Python-Flask: Flask-HTTPAuth). Here, for the learning purpose, we will walk through each step of this mechanism to understand it by doing.
-![image](https://github.com/user-attachments/assets/ffd16c6f-dc7f-40ff-815d-92f5e7c0f378)
-![image](https://github.com/user-attachments/assets/ffd16c6f-dc7f-40ff-815d-92f5e7c0f378)
 
+![image](https://github.com/user-attachments/assets/ffd16c6f-dc7f-40ff-815d-92f5e7c0f378)
 
 ## Simple API
 
