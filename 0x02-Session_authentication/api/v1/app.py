@@ -39,12 +39,12 @@ def filter_req():
     if auth.authorization_header(request) is None:
         print(f"{auth.authorization_header(request)}")
         abort(401)
-    if auth.authorization_header(request) and auth.session_cookie(request):
-        return None
+    if auth.authorization_header(request) is None\
+            and auth.session_cookie(request) is None:
+        abort(401)
     if auth.current_user(request) is None:
         abort(403)
-    curr_user = auth.current_user(request)
-    request.current_user = curr_user
+    request.current_user = auth.current_user(request)
 
 
 @app.errorhandler(404)
