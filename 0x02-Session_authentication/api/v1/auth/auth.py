@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """ implements auth class to manage API authentication. """
 from flask import request
+import os
 from typing import List, TypeVar
 from models.user import User
 
@@ -46,3 +47,17 @@ class Auth:
             None (to be overridden in subclasses).
         """
         return None
+
+    def session_cookie(self, request=None):
+        """
+        retrieves cookie value from a request.
+        Args:
+            request.
+        Return:
+            cookie value if it exists , None otherwise.
+        """
+        if request is None:
+            return None
+        cookie_name = os.getenv("SESSION_NAME")
+        cookie_val = request.cookies.get(cookie_name)
+        return cookie_val
