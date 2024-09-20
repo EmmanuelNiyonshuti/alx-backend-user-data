@@ -25,12 +25,16 @@ def view_one_user(user_id: str = None) -> str:
       - User object JSON represented
       - 404 if the User ID doesn't exist
     """
-    if user_id is None or (user_id == "me" and request.current_user is None):
+    if user_id is None:
         abort(404)
-    if user_id == "me" and request.current_user is not None:
-        user = User.get(user_id)
-        if user is None:
-            abort(404)
+    user = User.get(user_id)
+    if user is None:
+        abort(404)
+    if user_id == "me" and request.current_user is None:
+        abort(404)
+    elif user_id == "me" and request.current_user is not None:
+        return jsonify(user.to_json())
+    else:
         return jsonify(user.to_json())
 
 
@@ -125,7 +129,7 @@ def update_user(user_id: str = None) -> str:
 
 @app_views.route("/users/me", strict_slashes=False)
 def me():
-    """ GET /users/me
+    """ GET /api/v1/users/me
     PATH Parameter:
         - me
     Return:
