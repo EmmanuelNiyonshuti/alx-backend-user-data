@@ -11,11 +11,12 @@ class SessionAuth(Auth):
 
     def create_session(self, user_id: str = None) -> str:
         """
-        creates and returns a session id.
+        creates a uuid4 as a session id and maps it to a user_id
+        as it's value in user_id_by_session_id dictionary.
         Args:
             user_id (str)
         Return:
-            uuid.uuid(4) (str)
+            session id
         """
         if user_id is None or not isinstance(user_id, str):
             return None
@@ -34,9 +35,6 @@ class SessionAuth(Auth):
         """
         if session_id is None or not isinstance(session_id, str):
             return None
-        for k, v in SessionAuth.user_id_by_session_id.items():
-            if k == session_id:
-                user_id = v
         user_id = SessionAuth.user_id_by_session_id.get(session_id)
         return user_id
 
@@ -51,9 +49,7 @@ class SessionAuth(Auth):
         session_id = self.session_cookie(request)
         if session_id is None:
             return None
-
-        for v in self.user_id_by_session_id.values():
-            user_id = v
+        user_id = self.user_id_for_session_id(session_id)
         if user_id is None:
             return None
         return User.get(user_id)
