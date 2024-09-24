@@ -9,6 +9,7 @@ from typing import Optional
 
 Base = declarative_base()
 
+
 class User(Base):
     """
     User class.
@@ -20,4 +21,3 @@ class User(Base):
     hashed_password: str = Column(String(250), nullable=False)
     session_id: Optional[str] = Column(String(250), nullable=True)
     reset_token: Optional[str] = Column(String(250), nullable=True)
-
