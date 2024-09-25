@@ -61,13 +61,14 @@ class Auth:
         Return:
             bool.
         """
-        try:
-            user = self._db.find_user_by(email=email)
-            if user:
-                password_bytes = password.encode("utf-8")
-                return bcrypt.checkpw(password_bytes, user.hashed_password)
-        except (InvalidRequestError, NoResultFound):
-            return False
+
+        # user = self._db.find_user_by(email=email)
+        session = self._db._session
+        user = session.query(User).filter_by(email=email).first()
+        if user:
+            password_bytes = password.encode("utf-8")
+            return bcrypt.checkpw(password_bytes, user.hashed_password)
+        return False
 
     def create_session(self, email: str) -> str:
         """
