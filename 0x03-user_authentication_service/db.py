@@ -79,7 +79,7 @@ class DB:
             None.
         """
         try:
-            user = self.find_user_by(user_id=user_id)
+            user = self.find_user_by(id=user_id)
             valid_attrs = inspect(User).columns.keys()
             for k, v in kwargs.items():
                 if k not in valid_attrs:
