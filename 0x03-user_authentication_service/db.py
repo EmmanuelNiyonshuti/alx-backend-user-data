@@ -9,7 +9,6 @@ from sqlalchemy.orm.session import Session
 from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.exc import InvalidRequestError
 from sqlalchemy.inspection import inspect
-
 from user import Base, User
 
 
@@ -72,6 +71,11 @@ class DB:
     def update_user(self, user_id: int, **kwargs) -> None:
         """
         update a user.
+        Args:
+            user_id (int) - id of the user.
+            kwargs (dict) - arbitrary key word arguments.
+        Return:
+            None.
         """
         try:
             user = self.find_user_by(user_id=user_id)
@@ -83,3 +87,4 @@ class DB:
             self.__session.commit()
         except (NoResultFound, InvalidRequestError):
             pass
+    
