@@ -52,7 +52,7 @@ class DB:
         session.commit()
         return user
 
-    def find_user_by(self, **kwargs):
+    def find_user_by(self, **kwargs) -> User:
         """
         retrieves user from the database based on the provided criteria.
         Args:
@@ -60,11 +60,23 @@ class DB:
         Return:
             user object.
         """
-        valid_columns = inspect(User).columns.keys()
-        for k in kwargs:
-            if k not in valid_columns:
+        user_attrs = inspect(User).columns.keys()
+        for k in kwargs.keys():
+            if k not in user_attrs:
                 raise InvalidRequestError
-        user = self._session.query(User).filter_by(**kwargs).first()
+        user = self.__session.query(User).filter_by(**kwargs).first()
         if user is None:
             raise NoResultFound
         return user
+
+    def update_user(self, user_id: int, **kwargs) -> None:
+        """
+        update a user.
+        """
+        user = self.find_user_by(user_id=user_id)
+        valid_attrs = user.__dict__.keys()
+        for k, v in kwargs.items():
+            if k not in valid_attrs:
+                raise ValueError
+            setattr(user, k, v)
+        self.__session.commit()
