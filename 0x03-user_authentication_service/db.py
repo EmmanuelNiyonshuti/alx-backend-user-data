@@ -87,4 +87,3 @@ class DB:
             self.__session.commit()
         except (NoResultFound, InvalidRequestError):
             pass
-    
