@@ -1,9 +1,7 @@
 #!/usr/bin/env python3
 """
-handle auth.
+handle user auth.
 """
-from sqlalchemy.orm.exc import NoResultFound
-from sqlalchemy.exc import InvalidRequestError
 import bcrypt
 from db import DB
 from user import User
@@ -39,6 +37,7 @@ class Auth:
             user object.
         """
         user = self._db._session.query(User).filter_by(email=email).first()
+        # user = self._db.find_user_by(email=email)
         if user:
             raise ValueError(f"User {email} already exists")
         hashed_password = _hash_password(password)
