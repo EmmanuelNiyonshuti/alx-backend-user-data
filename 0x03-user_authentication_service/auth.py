@@ -3,6 +3,7 @@
 handle user auth.
 """
 import bcrypt
+import uuid
 from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.exc import InvalidRequestError
 from db import DB
@@ -62,3 +63,11 @@ class Auth:
                 return bcrypt.checkpw(password_bytes, user.hashed_password)
         except (InvalidRequestError, NoResultFound):
             return False
+
+    def _generate_uuid(self) -> str:
+        """ generates a uuid4 str"""
+        return str(uuid.uuid4())
+
+    def create_session(self, email: str) -> str:
+        """
+        """
