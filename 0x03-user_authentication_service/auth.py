@@ -44,8 +44,8 @@ class Auth:
         Return:
             user object.
         """
-        user = self._db._session.query(User).filter_by(email=email).first()
-        # user = self._db.find_user_by(email=email)
+        session = self._db._session
+        user = session.query(User).filter_by(email=email).first()
         if user:
             raise ValueError(f"User {email} already exists")
         hashed_password = _hash_password(password)
