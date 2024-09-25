@@ -73,10 +73,13 @@ class DB:
         """
         update a user.
         """
-        user = self.find_user_by(user_id=user_id)
-        valid_attrs = user.__dict__.keys()
-        for k, v in kwargs.items():
-            if k not in valid_attrs:
-                raise ValueError
-            setattr(user, k, v)
-        self.__session.commit()
+        try:
+            user = self.find_user_by(user_id=user_id)
+            valid_attrs = inspect(User).columns.keys()
+            for k, v in kwargs.items():
+                if k not in valid_attrs:
+                    raise ValueError
+                setattr(user, k, v)
+            self.__session.commit()
+        except (NoResultFound, InvalidRequestError):
+            pass
