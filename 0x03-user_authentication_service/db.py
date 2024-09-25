@@ -63,7 +63,8 @@ class DB:
         for k in kwargs.keys():
             if k not in user_attrs:
                 raise InvalidRequestError
-        user = self.__session.query(User).filter_by(**kwargs).first()
+        session = self._session
+        user = session.query(User).filter_by(**kwargs).first()
         if user is None:
             raise NoResultFound
         return user
@@ -84,6 +85,7 @@ class DB:
                 if k not in valid_attrs:
                     raise ValueError
                 setattr(user, k, v)
-            self.__session.commit()
+            session = self._session
+            session.commit()
         except (NoResultFound, InvalidRequestError):
             pass
