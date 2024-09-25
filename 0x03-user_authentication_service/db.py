@@ -53,5 +53,13 @@ class DB:
 
     def find_user_by(self, **kwargs):
         """
-        retrieves user from the database.
+        retrieves user from the database based on the provided criteria.
+        Args:
+            Kwargs: key word args.
+        Return:
+            user object.
         """
+        user = self._session.query(User).filter_by(**kwargs).first()
+        if user is None:
+            raise NoResultFound
+        return user
