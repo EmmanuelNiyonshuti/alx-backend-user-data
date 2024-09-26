@@ -112,6 +112,6 @@ class Auth:
         """
         try:
             user = self._db.update_user(user_id, session_id=None)
-            return user.session_id
+            return None
         except ValueError:
             pass
