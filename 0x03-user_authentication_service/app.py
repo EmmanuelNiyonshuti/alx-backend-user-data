@@ -2,7 +2,14 @@
 """
 Basic flask app.
 """
-from flask import Flask, jsonify, request, make_response, abort
+from flask import (
+    Flask,
+    jsonify,
+    request,
+    make_response,
+    abort,
+    redirect
+)
 from auth import Auth
 
 
@@ -26,6 +33,7 @@ def users():
     except ValueError:
         return jsonify({"message": "email already registered"}), 400
 
+
 @app.route("/sessions", methods=["POST"])
 def login():
     """login a user."""
@@ -37,6 +45,17 @@ def login():
     resp = make_response({"email": email, "message": "logged in"})
     resp.set_cookie("session_id", session_id)
     return resp
+
+
+@app.route("/sessions", methods=["DELETE"])
+def logout():
+    """ logout user"""
+    session_id = request.cookies.get("session_id")
+    user = AUTH.get_user_from_session_id(session_id)
+    if user is None:
+        abort(403)
+    AUTH.destroy_session(user.id)
+    return redirect("/")
 
 
 if __name__ == "__main__":
