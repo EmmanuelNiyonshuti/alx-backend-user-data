@@ -52,6 +52,8 @@ class Auth:
             return new_user
         except NoResultFound:
             raise ValueError("User {} already exists".format(email))
+        except InvalidRequestError:
+            pass
 
     def valid_login(self, email: str, password: str) -> bool:
         """
