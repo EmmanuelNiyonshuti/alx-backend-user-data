@@ -45,13 +45,16 @@ class Auth:
         Return:
             user object.
         """
-        session = self._db._session
-        user = session.query(User).filter_by(email=email).first()
-        if user:
-            raise ValueError("User {} already exists".format(email))
-        hashed_password = _hash_password(password)
-        new_user = self._db.add_user(email, hashed_password)
-        return new_user
+        try:
+            user = self._db.find_user_by(email=email)
+            if user:
+                raise ValueError("User {} already exists".format(email))
+        except NoResultFound:
+            hashed_password = _hash_password(password)
+            new_user = self._db.add_user(email, hashed_password)
+            return new_user
+        except InvalidRequestError:
+            pass
 
     def valid_login(self, email: str, password: str) -> bool:
         """
